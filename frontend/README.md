@@ -1,31 +1,16 @@
-# Career Connect — Frontend
+# React + Vite
 
-This directory is owned and maintained independently by the frontend
-engineer. The backend does not create, modify, or depend on anything here.
+This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
-## Talking to the backend
+Currently, two official plugins are available:
 
-- Base URL (local dev): `http://localhost:3000/api`
-- Full endpoint contract: [`../docs/API.md`](../docs/API.md)
-- Data model reference: [`../docs/DATABASE.md`](../docs/DATABASE.md)
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## Running the backend locally
+## React Compiler
 
-```bash
-cd ../backend
-npm install
-npm run setup   # creates the SQLite db, tables, and demo seed data
-npm run dev     # starts the API on http://localhost:3000
-```
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-Verify it's alive: `GET http://localhost:3000/api/health`
+## Expanding the Oxlint configuration
 
-## CORS
-
-The backend allows the origin set in `backend/.env` as `FRONTEND_URL`
-(defaults to `http://localhost:5173`). Update that value if your dev server
-runs on a different port.
-
-## Demo admin login
-
-See `../backend/README.md` for demo admin credentials (development only).
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
