@@ -33,8 +33,10 @@ Backend runs at: http://localhost:3000
 
 Health check: `GET /api/health`
 
-## API documentation
+## Documentation
 
-See [docs/API.md](docs/API.md) for the full REST contract, and
-[docs/DATABASE.md](docs/DATABASE.md) / [docs/DECISIONS.md](docs/DECISIONS.md)
-for schema and design notes.
+- [backend/README.md](backend/README.md) — full backend architecture, setup, and troubleshooting
+- [docs/API.md](docs/API.md) — full REST contract
+- [docs/DATABASE.md](docs/DATABASE.md) — schema and entity relationships
+- [docs/DECISIONS.md](docs/DECISIONS.md) — deliberate MVP design choices
+- [docs/RUNNING_WITHOUT_FRONTEND.md](docs/RUNNING_WITHOUT_FRONTEND.md) — exercise the entire backend end-to-end with curl, no frontend needed
