@@ -1,6 +1,16 @@
 import { SERVICE_CATEGORIES } from '../data/creators'
 import { fieldClass, fieldLabelClass, togglePillClass } from './formClasses'
 
+const WEEKDAYS = [
+  { id: 'MON', label: 'Monday' },
+  { id: 'TUE', label: 'Tuesday' },
+  { id: 'WED', label: 'Wednesday' },
+  { id: 'THU', label: 'Thursday' },
+  { id: 'FRI', label: 'Friday' },
+  { id: 'SAT', label: 'Saturday' },
+  { id: 'SUN', label: 'Sunday' },
+]
+
 function ServiceEditorRow({ service, index, onChange, onRemove, canRemove }) {
   function update(field, value) {
     onChange(service.id, { ...service, [field]: value })
@@ -108,17 +118,42 @@ function ServiceEditorRow({ service, index, onChange, onRemove, canRemove }) {
         </fieldset>
 
         {service.meetingRequired ? (
-          <label className={fieldClass('full')}>
-            <span className={fieldLabelClass}>Availability</span>
-            <input
-              className={fieldClass('control')}
-              type="text"
-              required
-              value={service.availability}
-              onChange={(event) => update('availability', event.target.value)}
-              placeholder="e.g. Mon & Wed, 7–9 PM"
-            />
-          </label>
+          <div className={`${fieldClass('full')} grid grid-cols-3 gap-3 max-[460px]:grid-cols-1`}>
+            <label className={fieldClass()}>
+              <span className={fieldLabelClass}>Day</span>
+              <select
+                className="w-full rounded-lg border border-border bg-white px-2.5 py-2 text-[0.9rem] text-ink-900 focus-visible:outline-2 focus-visible:outline-navy-700"
+                value={service.weekday}
+                onChange={(event) => update('weekday', event.target.value)}
+              >
+                {WEEKDAYS.map((day) => (
+                  <option key={day.id} value={day.id}>
+                    {day.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className={fieldClass()}>
+              <span className={fieldLabelClass}>From</span>
+              <input
+                className={fieldClass('control')}
+                type="time"
+                required
+                value={service.startTime}
+                onChange={(event) => update('startTime', event.target.value)}
+              />
+            </label>
+            <label className={fieldClass()}>
+              <span className={fieldLabelClass}>Until</span>
+              <input
+                className={fieldClass('control')}
+                type="time"
+                required
+                value={service.endTime}
+                onChange={(event) => update('endTime', event.target.value)}
+              />
+            </label>
+          </div>
         ) : (
           <label className={fieldClass('full')}>
             <span className={fieldLabelClass}>Expected delivery time</span>

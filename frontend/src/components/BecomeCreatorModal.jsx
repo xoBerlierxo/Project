@@ -5,6 +5,9 @@ import { SERVICE_CATEGORIES } from '../data/creators'
 import { getCategoryMeta } from '../data/categoryMeta'
 import { btn } from './buttonClasses'
 import { fieldClass, fieldLabelClass, togglePillClass } from './formClasses'
+import { applyAsCreator, createCreatorService } from '../api/creators'
+import { ApiError } from '../api/client'
+import { formatAvailability } from '../api/adapters'
 
 let serviceIdCounter = 0
 function makeEmptyService() {
@@ -17,7 +20,9 @@ function makeEmptyService() {
     duration: '',
     price: '',
     meetingRequired: true,
-    availability: '',
+    weekday: 'MON',
+    startTime: '18:00',
+    endTime: '19:00',
     deliveryTime: '',
   }
 }
@@ -38,6 +43,8 @@ function BecomeCreatorModal({ onClose, onSubmitApplication }) {
   const [profile, setProfile] = useState(emptyProfile)
   const [services, setServices] = useState([makeEmptyService()])
   const [agreed, setAgreed] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
 
   function updateProfile(field, value) {
     setProfile((prev) => ({ ...prev, [field]: value }))
@@ -60,9 +67,23 @@ function BecomeCreatorModal({ onClose, onSubmitApplication }) {
     setStep('preview')
   }
 
-  function handleSubmit() {
-    onSubmitApplication({ profile, services })
-    setStep('confirmation')
+  async function handleSubmit() {
+    setSubmitting(true)
+    setSubmitError('')
+
+    try {
+      const { creator, token } = await applyAsCreator(profile)
+      for (const service of services) {
+        await createCreatorService(creator.id, token, service)
+      }
+      onSubmitApplication({ profile, services })
+      setStep('confirmation')
+    } catch (err) {
+      const message = err instanceof ApiError ? err.message : 'Something went wrong submitting your application.'
+      setSubmitError(message)
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   if (step === 'confirmation') {
@@ -137,7 +158,11 @@ function BecomeCreatorModal({ onClose, onSubmitApplication }) {
                     ₹{service.price || 0} · {service.duration || 'n/a'}
                   </span>
                   <span className="text-ink-600">
-                    {service.meetingRequired ? service.availability : service.deliveryTime}
+                    {service.meetingRequired
+                      ? formatAvailability([
+                          { weekday: service.weekday, start_time: service.startTime, end_time: service.endTime },
+                        ])
+                      : service.deliveryTime}
                   </span>
                 </div>
               )
@@ -158,12 +183,18 @@ function BecomeCreatorModal({ onClose, onSubmitApplication }) {
           </span>
         </label>
 
+        {submitError && (
+          <p className="mt-[18px] rounded-lg bg-danger-100 px-3.5 py-2.5 text-[0.85rem] text-danger-600">
+            {submitError}
+          </p>
+        )}
+
         <div className="mt-[22px] flex justify-end gap-2.5">
-          <button type="button" className={btn('outline')} onClick={() => setStep('form')}>
+          <button type="button" className={btn('outline')} onClick={() => setStep('form')} disabled={submitting}>
             Back to edit
           </button>
-          <button type="button" className={btn('gold')} disabled={!agreed} onClick={handleSubmit}>
-            Submit for verification
+          <button type="button" className={btn('gold')} disabled={!agreed || submitting} onClick={handleSubmit}>
+            {submitting ? 'Submitting…' : 'Submit for verification'}
           </button>
         </div>
       </Modal>
