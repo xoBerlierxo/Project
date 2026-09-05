@@ -1,7 +1,7 @@
 # Career Connect
 
 A single-page React front end for **Career Connect**, the professional-services marketplace
-module described in the ReferralWorld Careers PRD. Job seekers can browse verified creators,
+module described in the [ReferralWorld Careers PRD](../docs/PRD.md). Job seekers can browse verified creators,
 filter by service type, open a profile, and see priced offerings (consultations, resume
 reviews, mock interviews, mentorship, referrals). Creators can apply to be listed through a
 multi-step application form.

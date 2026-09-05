@@ -1,12 +1,13 @@
 # Career Connect Backend
 
 Express + SQLite backend for the Career Connect marketplace MVP (see the
-[product PRD](../Claude_Career_Connect_MVP_Master_Prompt.md) for full
-requirements). This document covers setup, environment configuration, and a
-complete walkthrough of how the backend is put together.
+[product PRD](../docs/PRD.md) for full requirements). This document covers
+setup, environment configuration, and a complete walkthrough of how the
+backend is put together.
 
-For running the whole thing end-to-end without a frontend at all — via curl,
-Postman, or a browser — see **[RUNNING_WITHOUT_FRONTEND.md](../docs/RUNNING_WITHOUT_FRONTEND.md)**.
+For running the whole stack together, see **[docs/RUNNING_THE_MVP.md](../docs/RUNNING_THE_MVP.md)**.
+For running the backend entirely without a frontend — via curl, Postman, or
+a browser — see **[RUNNING_WITHOUT_FRONTEND.md](../docs/RUNNING_WITHOUT_FRONTEND.md)**.
 
 For the full REST contract, see **[docs/API.md](../docs/API.md)**.
 
